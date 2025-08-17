@@ -107,15 +107,19 @@ All colors MUST be HSL.
     --input: 215 28% 18%;
     --ring: 214 84% 56%;
 
-    /* Dark mode gradients */
+    /* Enhanced gradients for better visual appeal */
     --gradient-primary: linear-gradient(135deg, hsl(214 84% 56%), hsl(230 91% 65%));
     --gradient-hero: linear-gradient(135deg, hsl(214 84% 56%) 0%, hsl(270 91% 65%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(215 28% 10%) 0%, hsl(215 28% 12%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 14% 98%) 100%);
+    --gradient-sidebar: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 14% 99%) 100%);
+    --gradient-button: linear-gradient(135deg, hsl(214 84% 56%) 0%, hsl(220 84% 60%) 100%);
 
-    /* Dark shadows */
-    --shadow-soft: 0 2px 15px -3px hsl(0 0% 0% / 0.3);
-    --shadow-medium: 0 4px 25px -5px hsl(0 0% 0% / 0.4);
-    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
+    /* Enhanced shadows for depth */
+    --shadow-soft: 0 2px 15px -3px hsl(214 84% 56% / 0.1);
+    --shadow-medium: 0 4px 25px -5px hsl(214 84% 56% / 0.15);
+    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-hover: 0 8px 30px -6px hsl(214 84% 56% / 0.2);
+    --shadow-button: 0 4px 15px -2px hsl(214 84% 56% / 0.3);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -155,17 +159,35 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Social components */
+  /* Enhanced social components */
   .social-card {
-    @apply bg-card border border-border/50 rounded-xl shadow-[var(--shadow-card)] backdrop-blur-sm;
+    @apply bg-card border border-border/30 rounded-2xl shadow-[var(--shadow-card)] backdrop-blur-sm;
+    background: var(--gradient-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .social-card:hover {
+    @apply shadow-[var(--shadow-hover)] scale-[1.02];
+    transform: translateY(-2px) scale(1.005);
   }
 
   .social-button {
-    @apply transition-all duration-200 ease-out hover:scale-105 active:scale-95;
+    @apply transition-all duration-300 ease-out hover:scale-110 active:scale-95;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .social-button:hover {
+    transform: translateY(-1px);
   }
 
   .social-gradient {
-    background: var(--gradient-primary);
+    background: var(--gradient-button);
+    @apply shadow-[var(--shadow-button)];
+  }
+
+  .social-gradient:hover {
+    @apply shadow-[var(--shadow-hover)];
+    transform: translateY(-2px);
   }
 
   .hero-gradient {
@@ -176,19 +198,69 @@ All colors MUST be HSL.
     background: var(--gradient-card);
   }
 
-  /* Animations */
+  .sidebar-gradient {
+    background: var(--gradient-sidebar);
+  }
+
+  /* Enhanced navigation */
+  .nav-item {
+    @apply relative overflow-hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-item::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 transform scale-x-0 origin-left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-item:hover::before {
+    @apply scale-x-100;
+  }
+
+  .nav-item.active::before {
+    @apply scale-x-100 from-primary/20 to-primary/10;
+  }
+
+  /* Floating action effects */
+  .floating-action {
+    @apply relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .floating-action::after {
+    content: '';
+    @apply absolute inset-0 rounded-full bg-current opacity-0 scale-95;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .floating-action:hover::after {
+    @apply opacity-10 scale-100;
+  }
+
+  /* Enhanced animations */
   .fade-in {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .slide-up {
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  @keyframes fadeIn {
+  .bounce-in {
+    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Staggered animations */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+
+  @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -199,11 +271,64 @@ All colors MUST be HSL.
   @keyframes slideUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translateY(50px);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05) translateY(-10px);
+    }
+    70% {
+      transform: scale(0.98) translateY(5px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Loading states */
+  .skeleton {
+    @apply bg-muted animate-pulse rounded;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, 
+      hsl(var(--muted)) 25%, 
+      hsl(var(--muted-foreground) / 0.1) 50%, 
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Interactive feedback */
+  .ripple {
+    @apply relative overflow-hidden;
+  }
+
+  .ripple::before {
+    content: '';
+    @apply absolute inset-0 bg-current opacity-0 scale-0 rounded-full;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ripple:active::before {
+    @apply opacity-20 scale-100;
   }
 }

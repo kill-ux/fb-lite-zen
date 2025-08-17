@@ -61,18 +61,21 @@ const mockPosts = [
 
 export function Home() {
   return (
-    <div className="max-w-2xl mx-auto py-6 px-4">
+    <div className="max-w-2xl mx-auto py-8 px-6">
       <CreatePost />
       
-      <div className="space-y-6">
+      <div className="space-y-8">
         {mockPosts.map((post, index) => (
-          <PostCard key={index} {...post} />
+          <div key={index} className={`fade-in stagger-${Math.min(index + 1, 4)}`}>
+            <PostCard {...post} />
+          </div>
         ))}
       </div>
       
       {/* Load more indicator */}
-      <div className="text-center mt-8 py-4">
-        <p className="text-muted-foreground text-sm">You're all caught up! 🎉</p>
+      <div className="text-center mt-12 py-8 fade-in">
+        <p className="text-muted-foreground text-base font-medium">You're all caught up! 🎉</p>
+        <p className="text-muted-foreground/60 text-sm mt-2">Check back later for new posts</p>
       </div>
     </div>
   );
